@@ -1,10 +1,9 @@
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
-import {Component, ChangeDetectionStrategy} from "@angular/core";
+import {Component} from "@angular/core";
 @Component({
     selector: "navbar",
     directives: [ROUTER_DIRECTIVES],
     styles: [require("./navbar.component.scss")],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
       <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
