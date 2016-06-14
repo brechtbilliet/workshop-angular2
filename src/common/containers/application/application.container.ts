@@ -8,6 +8,7 @@ import {StockPage} from "../../../stock/containers/stock-page/stock-page.contain
 import {AboutPage} from "../../../about/containers/about-page/about-page.container";
 import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {Navbar} from "../../components/navbar/navbar.component";
+import {Account} from "../../../authentication/types/Account";
 @Component({
     selector: "application",
     providers: [Title],
@@ -15,7 +16,7 @@ import {Navbar} from "../../components/navbar/navbar.component";
     encapsulation: ViewEncapsulation.None,
     styles: [require("./application.container.scss")],
     template: `
-        <navbar></navbar>
+        <navbar [account]="account" (logout)="logout()"></navbar>
         <router-outlet></router-outlet>
     `
 })
@@ -28,5 +29,9 @@ export class WineCellarApp{
 
     constructor(private title: Title) {
         this.title.setTitle("Winecellar application");
+    }
+    public account: Account = {firstName: "Brecht", lastName:"Billiet", login:"brechtbilliet"}
+    public logout(): void{
+        alert('logout');
     }
 }

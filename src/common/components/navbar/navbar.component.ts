@@ -1,5 +1,6 @@
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
-import {Component} from "@angular/core";
+import {Component, Output, EventEmitter, Input} from "@angular/core";
+import {Account} from "../../../authentication/types/Account";
 @Component({
     selector: "navbar",
     directives: [ROUTER_DIRECTIVES],
@@ -25,9 +26,32 @@ import {Component} from "@angular/core";
                         <li><a [routerLink]="['MyWines']"><i class="fa fa-user"></i>&nbsp;My wines</a></li>
                         <li><a [routerLink]="['About']" ><i class="fa fa-info-circle"></i>&nbsp;About</a></li>
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="navbar-text hidden-sm hidden-xs hidden-md">
+                            Welcome {{account.firstName}} {{account.lastName}}
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
+                            aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript: void(0)" (click)="logoutClicked()">
+                                        <i class="fa fa-sign-out"></i>&nbsp;Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>`
 })
 export class Navbar {
+    @Input() public account: Account;
+
+    @Output() public logout = new EventEmitter();
+
+    public logoutClicked(): void {
+        this.logout.emit(null);
+    }
 }

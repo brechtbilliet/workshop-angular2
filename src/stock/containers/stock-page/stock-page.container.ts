@@ -1,6 +1,11 @@
 import {Component} from "@angular/core";
+import {Panel} from "../../../common/components/panel/panel.component";
+import {NumberPicker} from "../../../common/components/number-picker/number-picker.component";
+import {Rating} from "../../../common/components/rating/rating.component";
+import {Spinner} from "../../../common/components/spinner/spinner.component";
 @Component({
     selector: "stock-page",
+    directives: [Panel, Spinner, Rating, NumberPicker],
     template: `
         <default-page>
             <collapsable-sidebar>
@@ -35,10 +40,22 @@ import {Component} from "@angular/core";
                         </wine-results>
                     </div>
                 </div>
+                
+                <panel [header]="'Just a test'">
+                    <rating (setRate)="onSetRating($event)" [rating]="3"></rating>
+                    <number-picker [amount]="4" (setAmount)="onSetStock($event)"></number-picker>
+                    <spinner [spin]="true"></spinner>
+                </panel>
             </main>
         </default-page>
      `
 })
 export class StockPage {
+    public onSetRating(rating: number): void {
+        alert('set rating: ' + rating);
+    }
 
+    public onSetStock(stock: number): void {
+        alert('set stock: '+ stock);
+    }
 }
