@@ -9,6 +9,8 @@ import {AboutPage} from "../../../about/containers/about-page/about-page.contain
 import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {Navbar} from "../../components/navbar/navbar.component";
 import {Account} from "../../../authentication/types/Account";
+import {ApplicationState} from "../../state/ApplicationState";
+import {Store} from "@ngrx/store";
 @Component({
     selector: "application",
     providers: [Title],
@@ -25,13 +27,15 @@ import {Account} from "../../../authentication/types/Account";
     {path: "/stock", name: "MyWines", component: StockPage},
     {path: "/about", name: "About", component: AboutPage}
 ])
-export class WineCellarApp{
+export class WineCellarApp {
 
     constructor(private title: Title) {
         this.title.setTitle("Winecellar application");
     }
-    public account: Account = {firstName: "Brecht", lastName:"Billiet", login:"brechtbilliet"}
-    public logout(): void{
+
+    public account: Account = {firstName: "Brecht", lastName: "Billiet", login: "brechtbilliet"}
+
+    public logout(): void {
         alert('logout');
     }
 }
