@@ -14,7 +14,7 @@ import "font-awesome/css/font-awesome.css";
         <div>What a great app</div>
     `
 })
-export class WineCellarApp{
+export class WineCellarApp {
 
     constructor(private title: Title) {
         this.title.setTitle("Winecellar application");
