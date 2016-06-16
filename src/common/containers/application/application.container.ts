@@ -25,13 +25,15 @@ import {Account} from "../../../authentication/types/Account";
     {path: "/stock", name: "MyWines", component: StockPage},
     {path: "/about", name: "About", component: AboutPage}
 ])
-export class WineCellarApp{
+export class WineCellarApp {
 
     constructor(private title: Title) {
         this.title.setTitle("Winecellar application");
     }
-    public account: Account = {firstName: "Brecht", lastName:"Billiet", login:"brechtbilliet"}
-    public logout(): void{
+
+    public account: Account = {firstName: "Brecht", lastName: "Billiet", login: "brechtbilliet"}
+
+    public logout(): void {
         alert('logout');
     }
 }

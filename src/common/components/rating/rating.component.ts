@@ -12,22 +12,22 @@ import {Component, EventEmitter, Output, Input} from "@angular/core";
     `
 })
 export class Rating {
-    @Input() public rating:number;
-    @Input() public big:boolean;
+    @Input() public rating: number;
+    @Input() public big: boolean;
 
     @Output() public setRate = new EventEmitter<number>();
 
-    public overValue:number;
+    public overValue: number;
 
-    public update(value:number):void {
+    public update(value: number): void {
         this.setRate.emit(value);
     }
 
-    public over(value:number):void {
+    public over(value: number): void {
         this.overValue = value;
     }
 
-    public out():void {
+    public out(): void {
         this.overValue = 0;
     }
 }

@@ -9,4 +9,5 @@ import {Component} from "@angular/core";
         </div>
     `
 })
-export class FormGroupFooter {}
+export class FormGroupFooter {
+}
