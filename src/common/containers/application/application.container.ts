@@ -24,7 +24,7 @@ import {Navbar} from "../../components/navbar/navbar.component";
     {path: "/stock", name: "MyWines", component: StockPage},
     {path: "/about", name: "About", component: AboutPage}
 ])
-export class WineCellarApp{
+export class WineCellarApp {
 
     constructor(private title: Title) {
         this.title.setTitle("Winecellar application");
