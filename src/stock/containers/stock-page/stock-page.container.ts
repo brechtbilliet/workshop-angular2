@@ -56,6 +56,6 @@ export class StockPage {
     }
 
     public onSetStock(stock: number): void {
-        alert('set stock: '+ stock);
+        alert('set stock: ' + stock);
     }
 }
