@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "typings install",
     "start": "webpack-dev-server --config webpack/webpack.dev.js --inline --hot --open",
-    "build": "webpack --config webpack/webpack.build.js",
+    "build": "webpack --config webpack/webpack.build.js -p",
     "deploy": "npm run build && surge --project dist --domain winecellar.surge.sh",
     "test": "karma start"
   },
