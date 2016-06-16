@@ -1,6 +1,5 @@
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
-import {Component, Output, EventEmitter, Input, ChangeDetectionStrategy} from "@angular/core";
-import {Account} from "../../../authentication/types/Account";
+import {Component} from "@angular/core";
 @Component({
     selector: "navbar",
     directives: [ROUTER_DIRECTIVES],
@@ -28,14 +27,14 @@ import {Account} from "../../../authentication/types/Account";
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="navbar-text hidden-sm hidden-xs hidden-md">
-                            Welcome {{account.firstName}} {{account.lastName}}
+                            Welcome Fake user
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
                             aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="javascript: void(0)" (click)="logoutClicked()">
+                                    <a href="javascript: void(0)">
                                         <i class="fa fa-sign-out"></i>&nbsp;Logout
                                     </a>
                                 </li>
@@ -47,11 +46,4 @@ import {Account} from "../../../authentication/types/Account";
         </nav>`
 })
 export class Navbar {
-    @Input() public account: Account;
-
-    @Output() public logout = new EventEmitter();
-
-    public logoutClicked(): void {
-        this.logout.emit(null);
-    }
 }
