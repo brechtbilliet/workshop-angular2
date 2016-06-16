@@ -6,6 +6,7 @@ import {provide} from "@angular/core";
 import "rxjs/add/operator/do";
 import {Middleware, provideStore, usePreMiddleware, usePostMiddleware} from "@ngrx/store";
 import {store} from "./common/store";
+import {HTTP_PROVIDERS} from "@angular/http";
 
 const actionLog: Middleware = (action: any) => {
     return action.do((val: any) => {
@@ -20,6 +21,7 @@ const stateLog: Middleware = (state: any) => {
 
 bootstrap(WineCellarApp, [
     ROUTER_PROVIDERS,
+    HTTP_PROVIDERS,
     provide(APP_BASE_HREF, {useValue: "/"}),
     provide(LocationStrategy, {useClass: HashLocationStrategy}),
     provideStore(store),

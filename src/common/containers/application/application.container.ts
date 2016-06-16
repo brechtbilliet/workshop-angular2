@@ -11,15 +11,20 @@ import {Navbar} from "../../components/navbar/navbar.component";
 import {Account} from "../../../authentication/types/Account";
 import {ApplicationState} from "../../state/ApplicationState";
 import {Store} from "@ngrx/store";
+import {Authentication} from "../../../authentication/containers/authentication/authentication.container";
+import {AuthenticationService} from "../../../authentication/services/authentication.service";
 @Component({
     selector: "application",
-    providers: [Title],
-    directives: [ROUTER_DIRECTIVES, Navbar],
+    providers: [Title, AuthenticationService],
+    directives: [ROUTER_DIRECTIVES, Navbar, Authentication],
     encapsulation: ViewEncapsulation.None,
     styles: [require("./application.container.scss")],
     template: `
-        <navbar [account]="account" (logout)="logout()"></navbar>
-        <router-outlet></router-outlet>
+        <navbar [account]="account" (logout)="logout()" *ngIf="isAuthenticated"></navbar>
+        <authentication *ngIf="!isAuthenticated"></authentication>
+        <router-outlet *ngIf="isAuthenticated"></router-outlet>
+        <spinner></spinner>
+
     `
 })
 @RouteConfig([
@@ -29,13 +34,13 @@ import {Store} from "@ngrx/store";
 ])
 export class WineCellarApp {
 
-    constructor(private title: Title) {
+    constructor(private title: Title, private authenticationService: AuthenticationService) {
         this.title.setTitle("Winecellar application");
     }
-
+    public isAuthenticated: boolean = true;
     public account: Account = {firstName: "Brecht", lastName: "Billiet", login: "brechtbilliet"}
 
     public logout(): void {
-        alert('logout');
+        this.authenticationService.logout();
     }
 }
