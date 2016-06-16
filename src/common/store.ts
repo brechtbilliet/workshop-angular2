@@ -2,9 +2,8 @@ import {collapsableSidebarReducer} from "./reducers/containers/collapsableSideba
 import {authenticationReducer} from "./reducers/data/authenticationReducer";
 import {winesReducer} from "./reducers/data/winesReducer";
 import {applicationReducer} from "./reducers/containers/applicationReducer";
-import {IDataState} from "./state/DataState";
+import {DataState} from "./state/DataState";
 import {ContainersState} from "./state/ContainersState";
-import {INITIAL_STATE} from "./state/initialState";
 import {editStockReducer} from "./reducers/containers/editStockReducer";
 import {
     DATA_AUTHENTICATION_CLEAR_AUTHENTICATION, DATA_AUTHENTICATION_SET_AUTHENTICATION,
@@ -13,7 +12,20 @@ import {
     CONTAINER_COLLAPSABLESIDEBAR_TOGGLE, CONTAINER_APPLICATION_DISABLE_BUSY_FLAG, CONTAINER_APPLICATION_ENABLE_BUSY_FLAG
 } from "./actionTypes";
 
-function dataReducer(state:IDataState = INITIAL_STATE.data, action:any = null):IDataState {
+let dataState: DataState = {
+    authentication: {
+        isAuthenticated: false,
+        jwtToken: "",
+        account: null
+    },
+    wines: []
+}
+let containerState: ContainersState = {
+    editStockPage: null,
+    collapsableSidebar: null,
+    application: null
+}
+function dataReducer(state: DataState = dataState, action: any = null): DataState {
     switch (action.type) {
         case DATA_AUTHENTICATION_SET_AUTHENTICATION:
         case DATA_AUTHENTICATION_CLEAR_AUTHENTICATION:
@@ -24,14 +36,15 @@ function dataReducer(state:IDataState = INITIAL_STATE.data, action:any = null):I
         case DATA_WINES_UPDATE_RATE:
         case DATA_WINES_UPDATE_STOCK:
             return {
-                authentication:authenticationReducer(state.authentication, action),
+                authentication: authenticationReducer(state.authentication, action),
                 wines: winesReducer(state.wines, action)
-            }
+            };
+        default:
+            return state;
     }
-    return state;
 }
-function containersReducer(state:ContainersState = INITIAL_STATE.containers,
-                           action:any = null):ContainersState {
+function containersReducer(state: ContainersState = containerState,
+                           action: any = null): ContainersState {
     switch (action.type) {
         case CONTAINER_EDITSTOCKPAGE_CLEAR_WINE:
         case CONTAINER_EDITSTOCKPAGE_SET_WINE:
@@ -42,11 +55,12 @@ function containersReducer(state:ContainersState = INITIAL_STATE.containers,
                 editStockPage: editStockReducer(state.editStockPage, action),
                 collapsableSidebar: collapsableSidebarReducer(state.collapsableSidebar, action),
                 application: applicationReducer(state.application, action),
-            }
+            };
+        default:
+            return state;
     }
-    return state;
 }
-export const store:any = {
+export const store: any = {
     data: dataReducer,
     containers: containersReducer
 };
