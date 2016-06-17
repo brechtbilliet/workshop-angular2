@@ -48,7 +48,7 @@ let reducerComposer: any = {
         }
 
     },
-    container: {
+    containers: {
         editStockPage: {
             initialState: {},
             actions: [
