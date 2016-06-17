@@ -37,7 +37,7 @@ export class WineCellarApp {
     constructor(private title: Title, private authenticationService: AuthenticationService) {
         this.title.setTitle("Winecellar application");
     }
-    public isAuthenticated: boolean = true;
+    public isAuthenticated: boolean = false;
     public account: Account = {firstName: "Brecht", lastName: "Billiet", login: "brechtbilliet"}
 
     public logout(): void {

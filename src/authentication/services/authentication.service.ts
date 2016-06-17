@@ -4,6 +4,7 @@ import {Response, Http} from "@angular/http";
 import {AuthenticationResult} from "../types/AuthenticationResult";
 import {Account} from "../types/Account";
 import {API_URL, DEFAULT_HEADERS, LOCALSTORAGE_AUTH} from "../../configuration";
+import * as toastr from "toastr";
 @Injectable()
 export class AuthenticationService {
     constructor(private http: Http) {
