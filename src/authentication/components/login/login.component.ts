@@ -12,11 +12,7 @@ import {Credentials} from "../../types/Credentials";
 })
 export class Login {
     @Output()
-    public authenticate: EventEmitter<Credentials>;
-
-    constructor() {
-        this.authenticate = new EventEmitter();
-    }
+    public authenticate = new EventEmitter<Credentials>();
 
     public onSubmit(): void {
         this.authenticate.emit({login: "johndoe", password: "testtest"});

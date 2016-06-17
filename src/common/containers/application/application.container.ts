@@ -1,5 +1,5 @@
 import {Title} from "@angular/platform-browser";
-import {Component, ViewEncapsulation} from "@angular/core";
+import {Component, ViewEncapsulation, OnDestroy} from "@angular/core";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "toastr/build/toastr.css";
@@ -13,6 +13,7 @@ import {ApplicationState} from "../../state/ApplicationState";
 import {Store} from "@ngrx/store";
 import {Authentication} from "../../../authentication/containers/authentication/authentication.container";
 import {AuthenticationService} from "../../../authentication/services/authentication.service";
+import {Subscription} from "rxjs/Rx";
 @Component({
     selector: "application",
     providers: [Title, AuthenticationService],
@@ -32,22 +33,28 @@ import {AuthenticationService} from "../../../authentication/services/authentica
     {path: "/stock", name: "MyWines", component: StockPage},
     {path: "/about", name: "About", component: AboutPage}
 ])
-export class WineCellarApp {
+export class WineCellarApp implements OnDestroy {
+    public isAuthenticated: boolean;
+
+    public account: Account;
+    
+    private subscriptions: Array<Subscription> = [];
 
     constructor(private title: Title, private authenticationService: AuthenticationService, private store: Store<ApplicationState>) {
         this.title.setTitle("Winecellar application");
         authenticationService.checkInitialAuthentication();
-        this.store.subscribe((state: ApplicationState) => {
+        this.subscriptions.push(this.store.subscribe((state: ApplicationState) => {
             this.isAuthenticated = state.data.authentication.isAuthenticated;
             this.account = state.data.authentication.account;
-        });
+        }));
     }
 
-    public isAuthenticated: boolean;
-
-    public account: Account;
 
     public logout(): void {
         this.authenticationService.logout();
+    }
+
+    public ngOnDestroy(): void {
+        this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 }

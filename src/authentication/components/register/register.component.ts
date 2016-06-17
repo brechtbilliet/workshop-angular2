@@ -11,11 +11,7 @@ import {Account} from "../../types/Account";
 })
 export class Register {
     @Output()
-    public authenticate: EventEmitter<Account>;
-
-    constructor() {
-        this.authenticate = new EventEmitter();
-    }
+    public authenticate = new EventEmitter<Account>();
 
     public onSubmit(): void {
         this.authenticate.emit({firstName: "test", lastName: "tester", login: "testtester", password: ""});
