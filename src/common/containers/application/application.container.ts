@@ -34,11 +34,18 @@ import {AuthenticationService} from "../../../authentication/services/authentica
 ])
 export class WineCellarApp {
 
-    constructor(private title: Title, private authenticationService: AuthenticationService) {
+    constructor(private title: Title, private authenticationService: AuthenticationService, private store: Store<ApplicationState>) {
         this.title.setTitle("Winecellar application");
+        authenticationService.checkInitialAuthentication();
+        this.store.subscribe((state: ApplicationState) => {
+            this.isAuthenticated = state.data.authentication.isAuthenticated;
+            this.account = state.data.authentication.account;
+        });
     }
-    public isAuthenticated: boolean = false;
-    public account: Account = {firstName: "Brecht", lastName: "Billiet", login: "brechtbilliet"}
+
+    public isAuthenticated: boolean;
+
+    public account: Account;
 
     public logout(): void {
         this.authenticationService.logout();

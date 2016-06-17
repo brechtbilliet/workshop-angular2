@@ -12,7 +12,6 @@ import {Login} from "../../components/login/login.component";
     template: `
     <div class="container">
         <panel [header]="'You are not authenticated!'">
-            <button class="btn btn-danger" (click)="logout()">Logout</button>
             <login *ngIf="curTab === 0" (authenticate)="login($event)"></login>
             <register *ngIf="curTab === 1" (authenticate)="register($event)"></register>
             <a href="javascript:void(0)" (click)="enableTab(1)" *ngIf="curTab===0">I don't have an account yet</a>
