@@ -18,7 +18,7 @@ export class AuthenticationService {
 
     public authenticate(credentials: Credentials): void {
         this.http.post(API_URL + "/authentication/login", JSON.stringify(credentials), {headers: DEFAULT_HEADERS})
-            .map((response: Response) => response.json())
+            .map(response => response.json())
             .subscribe((result: AuthenticationResult) => {
                 window.localStorage.setItem(LOCALSTORAGE_AUTH, JSON.stringify(result));
                 this.store.dispatch({type: DATA_AUTHENTICATION_SET_AUTHENTICATION, payload: result});
@@ -29,7 +29,7 @@ export class AuthenticationService {
 
     public register(account: Account): void {
         this.http.post(API_URL + "/authentication/register", JSON.stringify(account), {headers: DEFAULT_HEADERS})
-            .map((response: Response) => response.json())
+            .map(response => response.json())
             .subscribe((result: AuthenticationResult) => {
                 window.localStorage.setItem(LOCALSTORAGE_AUTH, JSON.stringify(result));
                 this.store.dispatch({type: DATA_AUTHENTICATION_SET_AUTHENTICATION, payload: result});
