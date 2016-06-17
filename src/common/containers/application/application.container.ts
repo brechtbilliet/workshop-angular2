@@ -12,17 +12,19 @@ import {ApplicationState} from "../../state/ApplicationState";
 import {Store} from "@ngrx/store";
 import {Authentication} from "../../../authentication/containers/authentication/authentication.container";
 import {AuthenticationService} from "../../../authentication/services/authentication.service";
+import {BusyHandlerService} from "../../services/busyHandler.service";
+import {Spinner} from "../../components/spinner/spinner.component";
 @Component({
     selector: "application",
-    providers: [Title, AuthenticationService],
-    directives: [ROUTER_DIRECTIVES, Navbar, Authentication],
+    providers: [Title, AuthenticationService, BusyHandlerService],
+    directives: [ROUTER_DIRECTIVES, Navbar, Authentication, Spinner],
     encapsulation: ViewEncapsulation.None,
     styles: [require("./application.container.scss")],
     template: `
         <navbar [account]="account$|async" (logout)="logout()" *ngIf="isAuthenticated$|async"></navbar>
         <authentication *ngIf="!(isAuthenticated$|async)"></authentication>
         <router-outlet *ngIf="isAuthenticated$|async"></router-outlet>
-        <spinner></spinner>
+        <spinner [spin]="isBusy$|async"></spinner>
 
     `
 })
@@ -34,6 +36,7 @@ import {AuthenticationService} from "../../../authentication/services/authentica
 export class WineCellarApp {
     public isAuthenticated$ = this.store.select(state => state.data.authentication.isAuthenticated);
     public account$ = this.store.select(state => state.data.authentication.account);
+    public isBusy$ = this.store.select(state => state.containers.application.isBusy);
 
     constructor(private title: Title, private authenticationService: AuthenticationService, private store: Store<ApplicationState>) {
         this.title.setTitle("Winecellar application");

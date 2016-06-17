@@ -1,7 +1,9 @@
 import {Component} from "@angular/core";
+import {Main} from "../../../common/components/main/main.component";
+import {DefaultPage} from "../../../common/components/default-page/default-page.component";
 @Component({
     selector: "about-page",
-    directives: [],
+    directives: [DefaultPage, Main],
     template: `
         <default-page>
             <main>

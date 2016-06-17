@@ -11,31 +11,23 @@ import {
     DATA_AUTHENTICATION_SET_AUTHENTICATION,
     DATA_AUTHENTICATION_CLEAR_AUTHENTICATION
 } from "../../common/actionTypes";
+import {BusyHandlerService} from "../../common/services/busyHandler.service";
+import {Observable} from "rxjs/Rx";
 @Injectable()
 export class AuthenticationService {
-    constructor(private http: Http, private store: Store<ApplicationState>) {
+    constructor(private http: Http, private store: Store<ApplicationState>, private busyHandlerService: BusyHandlerService) {
     }
 
     public authenticate(credentials: Credentials): void {
-        this.http.post(API_URL + "/authentication/login", JSON.stringify(credentials), {headers: DEFAULT_HEADERS})
-            .map(response => response.json())
-            .subscribe((result: AuthenticationResult) => {
-                window.localStorage.setItem(LOCALSTORAGE_AUTH, JSON.stringify(result));
-                this.store.dispatch({type: DATA_AUTHENTICATION_SET_AUTHENTICATION, payload: result});
-            }, (errorResponse: Response) => {
-                toastr.error(errorResponse.json().error);
-            });
+        this.handleAuthenticationResult(
+            this.http.post(API_URL + "/authentication/login", JSON.stringify(credentials), {headers: DEFAULT_HEADERS})
+        );
     }
 
     public register(account: Account): void {
-        this.http.post(API_URL + "/authentication/register", JSON.stringify(account), {headers: DEFAULT_HEADERS})
-            .map(response => response.json())
-            .subscribe((result: AuthenticationResult) => {
-                window.localStorage.setItem(LOCALSTORAGE_AUTH, JSON.stringify(result));
-                this.store.dispatch({type: DATA_AUTHENTICATION_SET_AUTHENTICATION, payload: result});
-            }, (errorResponse: Response) => {
-                toastr.error(errorResponse.json().error);
-            });
+        this.handleAuthenticationResult(
+            this.http.post(API_URL + "/authentication/register", JSON.stringify(account), {headers: DEFAULT_HEADERS})
+        );
     }
 
     public logout(): void {
@@ -52,4 +44,15 @@ export class AuthenticationService {
             });
         }
     }
+
+    private handleAuthenticationResult(obs$: Observable<Response>): void {
+        this.busyHandlerService.handle(obs$).map(resp => resp.json()).subscribe((result: AuthenticationResult) => {
+            window.localStorage.setItem(LOCALSTORAGE_AUTH, JSON.stringify(result));
+            this.store.dispatch({type: DATA_AUTHENTICATION_SET_AUTHENTICATION, payload: result});
+            toastr.success("successfully logged in!");
+        }, (errorResponse: Response) => {
+            toastr.error(errorResponse.json().error);
+        });
+    }
+
 }
