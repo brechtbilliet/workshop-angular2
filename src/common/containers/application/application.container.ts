@@ -21,7 +21,7 @@ import {Spinner} from "../../components/spinner/spinner.component";
     encapsulation: ViewEncapsulation.None,
     styles: [require("./application.container.scss")],
     template: `
-        <navbar [account]="account$|async" (logout)="logout()" *ngIf="isAuthenticated$|async"></navbar>
+        <navbar [account]="account$|async" (logout)="logout()" [hidden]="!(isAuthenticated$|async)"></navbar>
         <authentication *ngIf="!(isAuthenticated$|async)"></authentication>
         <router-outlet *ngIf="isAuthenticated$|async"></router-outlet>
         <spinner [spin]="isBusy$|async"></spinner>
