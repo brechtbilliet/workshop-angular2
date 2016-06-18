@@ -3,6 +3,7 @@ import {Subject, Observable} from "rxjs/Rx";
 import {ApplicationState} from "../state/ApplicationState";
 import {Store} from "@ngrx/store";
 import {Injectable} from "@angular/core";
+import {enableBusy, disableBusy} from "../actionCreators";
 
 @Injectable()
 export class BusyHandlerService {
@@ -15,13 +16,14 @@ export class BusyHandlerService {
         let subject: Subject<any> = new Subject();
         obs.subscribe(subject);
         if (this.activeCalls === 0) {
-            this.store.dispatch({type: CONTAINER_APPLICATION_ENABLE_BUSY_FLAG});
+            
+            this.store.dispatch(enableBusy());
         }
         this.activeCalls++;
         subject.finally(() => {
             this.activeCalls--;
             if (this.activeCalls === 0) {
-                this.store.dispatch({type: CONTAINER_APPLICATION_DISABLE_BUSY_FLAG});
+                this.store.dispatch(disableBusy());
             }
         }).subscribe();
         return subject;

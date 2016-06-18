@@ -2,9 +2,9 @@ import {Injectable} from "@angular/core";
 import {Store} from "@ngrx/store";
 import {ApplicationState} from "../../common/state/ApplicationState";
 import {Wine} from "../entities/Wine";
-import {CONTAINER_EDITSTOCKPAGE_CLEAR_WINE, CONTAINER_EDITSTOCKPAGE_SET_WINE} from "../../common/actionTypes";
 import {StockService} from "../services/stock.service";
 import {Observable} from "rxjs/Rx";
+import {clearWine, setWine} from "../../common/actionCreators";
 
 @Injectable()
 export class EditStockPageSandbox {
@@ -18,7 +18,7 @@ export class EditStockPageSandbox {
     }
 
     public clearWine(): void {
-        this.store.dispatch({type: CONTAINER_EDITSTOCKPAGE_CLEAR_WINE});
+        this.store.dispatch(clearWine());
     }
 
     public fetchWine(id: string): Observable<Wine> {
@@ -26,6 +26,6 @@ export class EditStockPageSandbox {
     }
 
     public setWine(wine: Wine): void {
-        this.store.dispatch({type: CONTAINER_EDITSTOCKPAGE_SET_WINE, payload: wine});
+        this.store.dispatch(setWine(wine));
     }
 }

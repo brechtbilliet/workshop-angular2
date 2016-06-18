@@ -7,12 +7,9 @@ import {API_URL, DEFAULT_HEADERS, LOCALSTORAGE_AUTH} from "../../configuration";
 import * as toastr from "toastr";
 import {ApplicationState} from "../../common/state/ApplicationState";
 import {Store} from "@ngrx/store";
-import {
-    DATA_AUTHENTICATION_SET_AUTHENTICATION,
-    DATA_AUTHENTICATION_CLEAR_AUTHENTICATION
-} from "../../common/actionTypes";
 import {BusyHandlerService} from "../../common/services/busyHandler.service";
 import {Observable} from "rxjs/Rx";
+import {clearAuthentication, setAuthentication} from "../../common/actionCreators";
 @Injectable()
 export class AuthenticationService {
     constructor(private http: Http, private store: Store<ApplicationState>, private busyHandlerService: BusyHandlerService) {
@@ -32,23 +29,20 @@ export class AuthenticationService {
 
     public logout(): void {
         localStorage.removeItem(LOCALSTORAGE_AUTH);
-        this.store.dispatch({type: DATA_AUTHENTICATION_CLEAR_AUTHENTICATION});
+        this.store.dispatch(clearAuthentication());
     }
 
     public checkInitialAuthentication(): void {
         let localStorageObj = window.localStorage.getItem(LOCALSTORAGE_AUTH);
         if (localStorageObj) {
-            this.store.dispatch({
-                type: DATA_AUTHENTICATION_SET_AUTHENTICATION,
-                payload: JSON.parse(localStorageObj)
-            });
+            this.store.dispatch(setAuthentication(JSON.parse(localStorageObj)));
         }
     }
 
     private handleAuthenticationResult(obs$: Observable<Response>): void {
         this.busyHandlerService.handle(obs$).map(resp => resp.json()).subscribe((result: AuthenticationResult) => {
             window.localStorage.setItem(LOCALSTORAGE_AUTH, JSON.stringify(result));
-            this.store.dispatch({type: DATA_AUTHENTICATION_SET_AUTHENTICATION, payload: result});
+            this.store.dispatch(setAuthentication(result));
             toastr.success("successfully logged in!");
         }, (errorResponse: Response) => {
             toastr.error(errorResponse.json().error);

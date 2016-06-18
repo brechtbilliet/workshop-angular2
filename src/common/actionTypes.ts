@@ -1,5 +1,8 @@
 // data
 // data: authentication
+import {AuthenticationResult} from "../authentication/types/AuthenticationResult";
+import {Action} from "@ngrx/store";
+import {Wine} from "../stock/entities/Wine";
 export const DATA_AUTHENTICATION_SET_AUTHENTICATION: string = "DATA_AUTHENTICATION_SET_AUTHENTICATION";
 export const DATA_AUTHENTICATION_CLEAR_AUTHENTICATION: string = "DATA_AUTHENTICATION_CLEAR_AUTHENTICATION";
 // data: wines
@@ -19,3 +22,5 @@ export const CONTAINER_EDITSTOCKPAGE_SET_WINE: string = "CONTAINER_EDITSTOCKPAGE
 export const CONTAINER_EDITSTOCKPAGE_CLEAR_WINE: string = "CONTAINER_EDITSTOCKPAGE_CLEAR_WINE";
 // containers: collapsableSidebar
 export const CONTAINER_COLLAPSABLESIDEBAR_TOGGLE: string = "CONTAINER_COLLAPSABLESIDEBAR_TOGGLE";
+
+

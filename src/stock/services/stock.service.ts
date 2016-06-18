@@ -3,18 +3,18 @@ import * as toastr from "toastr";
 import {Injectable} from "@angular/core";
 import {Http, Response, Headers, RequestOptionsArgs} from "@angular/http";
 import {Wine} from "../entities/Wine";
-import {
-    DATA_WINES_ADD_ALL,
-    DATA_WINES_ADD,
-    DATA_WINES_REMOVE,
-    DATA_WINES_UPDATE_RATE,
-    DATA_WINES_UPDATE,
-    DATA_WINES_UPDATE_STOCK
-} from "../../common/actionTypes";
 import {ApplicationState} from "../../common/state/ApplicationState";
 import {API_URL} from "../../configuration";
 import {BusyHandlerService} from "../../common/services/busyHandler.service";
 import {Observable} from "rxjs";
+import {
+    addWine,
+    updateWine,
+    removeWine,
+    addAllWines,
+    updateRateWine,
+    updateStockWine
+} from "../../common/actionCreators";
 
 @Injectable()
 export class StockService {
@@ -26,7 +26,7 @@ export class StockService {
         this.busyHandler.handle(this.http.post(API_URL + "/wines", JSON.stringify(wine), this.getHttpOptions())
             .map((res: Response) => res.json()))
             .subscribe((resp: Wine) => {
-                this.store.dispatch({type: DATA_WINES_ADD, payload: {wine: resp}});
+                this.store.dispatch(addWine(resp));
             }, (resp: Response) => this.onError(resp));
     }
 
@@ -34,14 +34,14 @@ export class StockService {
         this.busyHandler.handle(this.http.put(API_URL + "/wines/" + id, JSON.stringify(wine), this.getHttpOptions())
             .map((res: Response) => res.json()))
             .subscribe(() => {
-                this.store.dispatch({type: DATA_WINES_UPDATE, payload: {wine: wine, _id: id}});
+                this.store.dispatch(updateWine(id, wine));
             }, (resp: Response) => this.onError(resp));
     }
 
     public remove(wine: Wine): void {
         this.busyHandler.handle(this.http.delete(API_URL + "/wines/" + wine._id, this.getHttpOptions()))
             .subscribe(() => {
-                this.store.dispatch({type: DATA_WINES_REMOVE, payload: {_id: wine._id}});
+                this.store.dispatch(removeWine(wine._id));
             }, (resp: Response) => this.onError(resp));
     }
 
@@ -49,7 +49,7 @@ export class StockService {
         this.busyHandler.handle(this.http.get(API_URL + "/wines", this.getHttpOptions())
             .map((res: Response) => res.json()))
             .subscribe((wines: Array<Wine>) => {
-                this.store.dispatch({type: DATA_WINES_ADD_ALL, payload: {wines}});
+                this.store.dispatch(addAllWines(wines));
             }, (resp: Response) => this.onError(resp));
     }
 
@@ -64,7 +64,7 @@ export class StockService {
             this.http.put(API_URL + "/wines/" + wine._id, JSON.stringify(newWine), this.getHttpOptions())
                 .map((res: Response) => res.json()))
             .subscribe(() => {
-                this.store.dispatch({type: DATA_WINES_UPDATE_RATE, payload: {_id: wine._id, myRating}});
+                this.store.dispatch(updateRateWine(wine._id, myRating));
             }, (resp: Response) => this.onError(resp));
     }
 
@@ -74,7 +74,7 @@ export class StockService {
             this.http.put(API_URL + "/wines/" + wine._id, JSON.stringify(newWine), this.getHttpOptions())
                 .map((res: Response) => res.json()))
             .subscribe(() => {
-                this.store.dispatch({type: DATA_WINES_UPDATE_STOCK, payload: {_id: wine._id, inStock}});
+                this.store.dispatch(updateStockWine(wine._id, inStock));
             }, (resp: Response) => this.onError(resp));
     }
 
