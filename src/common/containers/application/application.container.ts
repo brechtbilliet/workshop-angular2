@@ -15,6 +15,8 @@ import {AuthenticationService} from "../../../authentication/services/authentica
 import {BusyHandlerService} from "../../services/busyHandler.service";
 import {Spinner} from "../../components/spinner/spinner.component";
 import {StockService} from "../../../stock/services/stock.service";
+import {EditStockPage} from "../../../stock/containers/edit-stock-page/edit-stock-page.container";
+import {AddStockPage} from "../../../stock/containers/add-stock-page/add-stock-page.container";
 @Component({
     selector: "application",
     providers: [Title, AuthenticationService, BusyHandlerService, StockService],
@@ -31,6 +33,8 @@ import {StockService} from "../../../stock/services/stock.service";
 @RouteConfig([
     {path: "/", name: "Root", redirectTo: ["MyWines"]},
     {path: "/stock", name: "MyWines", component: StockPage},
+    {path: "/stock/add", name: "AddWine", component: AddStockPage},
+    {path: "/stock/:id", name: "EditWine", component: EditStockPage},
     {path: "/about", name: "About", component: AboutPage}
 ])
 export class WineCellarApp {
@@ -44,12 +48,11 @@ export class WineCellarApp {
 
     public isBusy$ = this.store.select(state => state.containers.application.isBusy);
 
-    constructor(private title: Title, private authenticationService: AuthenticationService, private store: Store<ApplicationState>, private stockService: StockService) {
+    constructor(private title: Title, private authenticationService: AuthenticationService,
+                private store: Store<ApplicationState>, private stockService: StockService) {
         this.title.setTitle("Winecellar application");
         authenticationService.checkInitialAuthentication();
-
     }
-
 
     public logout(): void {
         this.authenticationService.logout();

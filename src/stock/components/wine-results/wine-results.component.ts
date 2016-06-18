@@ -1,6 +1,10 @@
-import {Component} from "@angular/core";
+import {Component, Output, Input} from "@angular/core";
+import {Wine} from "../../entities/Wine";
+import {EventEmitter} from "@angular/router-deprecated/src/facade/async";
+import {WineResult} from "../wine-result/wine-result.component";
 @Component({
     selector: "wine-results",
+    directives: [WineResult],
     template: `
         <table class="table table-striped">
             <thead>
@@ -15,7 +19,10 @@ import {Component} from "@angular/core";
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr *ngFor="let wine of wines" [wineResult]="wine" 
+                    (setStock)="onSetStock(wine, $event)" (setRate)="onSetRate(wine, $event)" (remove)="onRemove(wine)">
+                </tr>
+                <tr *ngIf="wines && wines.length === 0">
                     <td colspan="7">You haven't added any wines yet</td>
                 </tr>
             </tbody>
@@ -23,5 +30,21 @@ import {Component} from "@angular/core";
     `
 })
 export class WineResults {
+    @Input() public wines: Array<Wine>;
 
+    @Output() public remove = new EventEmitter<Wine>();
+    @Output() public setRate = new EventEmitter<{wine: Wine, value: Number}>();
+    @Output() public setStock = new EventEmitter<{wine: Wine, value: Number}>();
+
+    public onSetRate(wine: Wine, value: number): void {
+        this.setRate.emit({wine, value});
+    }
+
+    public onSetStock(wine: Wine, value: number): void {
+        this.setStock.emit({wine, value});
+    }
+
+    public onRemove(wine: Wine): void {
+        this.remove.emit(wine);
+    }
 }
