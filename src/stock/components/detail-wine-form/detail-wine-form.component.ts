@@ -9,14 +9,15 @@ import {NumberPicker} from "../../../common/components/number-picker/number-pick
 import {Wine} from "../../entities/Wine";
 import {EventEmitter} from "@angular/router-deprecated/src/facade/async";
 import {ControlGroup, Validators, Control} from "@angular/common";
+import {WineSearch} from "../../containers/wine-search/wine-search.container";
+import {Product} from "../../services/wineCom.service";
 @Component({
     selector: "detail-wine-form",
     changeDetection: ChangeDetectionStrategy.OnPush,
-    directives: [FormGroupTextbox, FormGroupTextarea, FormGroupFooter, ROUTER_DIRECTIVES, Rating, NumberPicker, FormGroupContent],
+    directives: [FormGroupTextbox, FormGroupTextarea, FormGroupFooter, ROUTER_DIRECTIVES, Rating, NumberPicker, FormGroupContent, WineSearch],
     template: `
         <form class="form-horizontal col-sm-12" (ngSubmit)="onSubmit()">
-            <form-group-textbox [label]="'Region'" [control]="wineForm.controls['name']" [placeholder]="'Enter name'">
-            </form-group-textbox>    
+            <wine-search [control]="wineForm.controls['name']" (onSelect)="selectWine($event)"></wine-search>    
             <form-group-textarea [label]="'Description'" [control]="wineForm.controls['description']" 
                 [placeholder]="'Enter description'">
             </form-group-textarea>    
@@ -70,5 +71,13 @@ export class DetailWineForm implements OnInit {
 
     public setInStock(inStock: number): void {
         this.wine.inStock = inStock;
+    }
+
+    public selectWine(wine: Product): void {
+        (<Control>this.wineForm.controls["name"]).updateValue(wine.name);
+        (<Control>this.wineForm.controls["description"]).updateValue(wine.description);
+        (<Control>this.wineForm.controls["price"]).updateValue(wine.priceRetail);
+        (<Control>this.wineForm.controls["region"]).updateValue(wine.appellation.region.name);
+        this.wine.image = wine.labels.length > 0 ? wine.labels[0].url : null;
     }
 }
