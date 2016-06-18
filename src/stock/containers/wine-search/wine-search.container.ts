@@ -2,11 +2,12 @@ import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from "@
 import {Control} from "@angular/common";
 import {Subject, Observable} from "rxjs";
 import {WineComService, Product, WineComSearchResult} from "../../services/wineCom.service";
+import {WineSearchSandbox} from "../../sandboxes/wine-search.sandbox";
 
 @Component({
     selector: "wine-search",
     styles: [require("./wine-search.container.scss")],
-    providers: [WineComService],
+    providers: [WineComService, WineSearchSandbox],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div class="form-group has-feedback" [class.has-success]="control.valid">
@@ -34,7 +35,7 @@ export class WineSearch {
     private foundWineName: string;
     private reset$ = new Subject<boolean>();
 
-    constructor(private wineComService: WineComService) {
+    constructor(private sb: WineSearchSandbox) {
     }
 
     public selectWine(wine: Product): void {
@@ -48,7 +49,7 @@ export class WineSearch {
             .do(value => this.reset$.next(value.length < 3))
             .debounceTime(300)
             .filter(value => value.length > 2 && value !== this.foundWineName)
-            .map(value => this.wineComService.search(value))
+            .map(value => this.sb.search(value))
             .switch()
             .map((res: WineComSearchResult) => res.products.list).cache();
 

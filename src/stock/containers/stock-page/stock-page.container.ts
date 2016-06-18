@@ -4,18 +4,17 @@ import {Main} from "../../../common/components/main/main.component";
 import {DefaultPage} from "../../../common/components/default-page/default-page.component";
 import {WineResults} from "../../components/wine-results/wine-results.component";
 import {CollapsableSidebar} from "../../../common/containers/collapsable-sidebar/collapsable-sidebar.container";
-import {ApplicationState} from "../../../common/state/ApplicationState";
-import {Store} from "@ngrx/store";
 import {Control} from "@angular/common";
 import {Wine} from "../../entities/Wine";
 import * as _ from "lodash";
 import {Observable} from "rxjs/Rx";
-import {StockService} from "../../services/stock.service";
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {FavoriteWines} from "../../components/favorite-wines/favorite-wines.component";
+import {StockPageSandbox} from "../../sandboxes/stock-page.sandbox";
 @Component({
     selector: "stock-page",
     directives: [Panel, DefaultPage, Main, CollapsableSidebar, FavoriteWines, WineResults, ROUTER_DIRECTIVES],
+    providers: [StockPageSandbox],
     template: `
         <default-page>
             <collapsable-sidebar class="hidden-sm hidden-xs">
@@ -60,7 +59,8 @@ import {FavoriteWines} from "../../components/favorite-wines/favorite-wines.comp
 })
 export class StockPage {
     public searchCtrl = new Control("");
-    public wines$ = this.store.select(state => state.data.wines);
+
+    public wines$ = this.sb.wines$;
     public favoriteWines$ = this.wines$.map(wines => _.orderBy(wines, ["myRating"], ["desc"]));
     public numberOfWines$ = this.wines$.map(wines => _.sumBy(wines, (wine: Wine) => wine.inStock));
     public matchingWines$ = Observable.combineLatest(
@@ -68,19 +68,18 @@ export class StockPage {
             return wines.filter(wine => wine.name.toLowerCase().indexOf(term) > -1);
         });
 
-    constructor(private store: Store<ApplicationState>, private stockService: StockService) {
-
+    constructor(private sb: StockPageSandbox) {
     }
 
     public onRemove(wine: Wine): void {
-        this.stockService.remove(wine);
+        this.sb.removeWine(wine);
     }
 
     public onSetRate(item: {wine: Wine, value: number}): void {
-        this.stockService.setRate(item.wine, item.value);
+        this.sb.setRate(item.wine, item.value);
     }
 
     public onSetStock(item: {wine: Wine, value: number}): void {
-        this.stockService.setStock(item.wine, item.value);
+        this.sb.setStock(item.wine, item.value);
     }
 }

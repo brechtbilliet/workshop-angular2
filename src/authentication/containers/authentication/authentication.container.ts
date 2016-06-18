@@ -5,10 +5,11 @@ import {Credentials} from "../../types/Credentials";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Register} from "../../components/register/register.component";
 import {Login} from "../../components/login/login.component";
+import {AuthenticationSandbox} from "../../sandboxes/authentication.sandbox";
 @Component({
     selector: "authentication",
     directives: [Panel, Login, Register],
-    providers: [AuthenticationService],
+    providers: [AuthenticationService, AuthenticationSandbox],
     template: `
     <div class="container">
         <panel [header]="'You are not authenticated!'">
@@ -23,7 +24,7 @@ import {Login} from "../../components/login/login.component";
 export class Authentication {
     public curTab: number = 0;
 
-    constructor(private authenticationService: AuthenticationService) {
+    constructor(private sb: AuthenticationSandbox) {
     }
 
     public enableTab(tabIndex: number): void {
@@ -31,14 +32,10 @@ export class Authentication {
     }
 
     public login(credentials: Credentials): void {
-        this.authenticationService.authenticate(credentials);
+        this.sb.login(credentials);
     }
 
     public register(account: Account): void {
-        this.authenticationService.register(account);
-    }
-
-    public logout(): void {
-        this.authenticationService.logout();
+        this.sb.register(account);
     }
 }

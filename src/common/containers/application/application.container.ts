@@ -8,8 +8,6 @@ import {StockPage} from "../../../stock/containers/stock-page/stock-page.contain
 import {AboutPage} from "../../../about/containers/about-page/about-page.container";
 import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {Navbar} from "../../components/navbar/navbar.component";
-import {ApplicationState} from "../../state/ApplicationState";
-import {Store} from "@ngrx/store";
 import {Authentication} from "../../../authentication/containers/authentication/authentication.container";
 import {AuthenticationService} from "../../../authentication/services/authentication.service";
 import {BusyHandlerService} from "../../services/busyHandler.service";
@@ -17,9 +15,10 @@ import {Spinner} from "../../components/spinner/spinner.component";
 import {StockService} from "../../../stock/services/stock.service";
 import {EditStockPage} from "../../../stock/containers/edit-stock-page/edit-stock-page.container";
 import {AddStockPage} from "../../../stock/containers/add-stock-page/add-stock-page.container";
+import {ApplicationSandbox} from "../../sandboxes/application.sandbox";
 @Component({
     selector: "application",
-    providers: [Title, AuthenticationService, BusyHandlerService, StockService],
+    providers: [Title, AuthenticationService, BusyHandlerService, StockService, ApplicationSandbox],
     directives: [ROUTER_DIRECTIVES, Navbar, Authentication, Spinner],
     encapsulation: ViewEncapsulation.None,
     styles: [require("./application.container.scss")],
@@ -38,23 +37,21 @@ import {AddStockPage} from "../../../stock/containers/add-stock-page/add-stock-p
     {path: "/about", name: "About", component: AboutPage}
 ])
 export class WineCellarApp {
-    public isAuthenticated$ = this.store.select(state => state.data.authentication.isAuthenticated).do((isAuthenticated: boolean) => {
+    public isAuthenticated$ = this.sb.isAuthenticated$.do((isAuthenticated: boolean) => {
         if (isAuthenticated) {
-            this.stockService.load();
+            this.sb.loadWines();
         }
     }).cache();
 
-    public account$ = this.store.select(state => state.data.authentication.account);
+    public account$ = this.sb.account$;
+    public isBusy$ = this.sb.isBusy$;
 
-    public isBusy$ = this.store.select(state => state.containers.application.isBusy);
-
-    constructor(private title: Title, private authenticationService: AuthenticationService,
-                private store: Store<ApplicationState>, private stockService: StockService) {
+    constructor(private title: Title, public sb: ApplicationSandbox) {
         this.title.setTitle("Winecellar application");
-        authenticationService.checkInitialAuthentication();
+        sb.loadAuthentication();
     }
 
     public logout(): void {
-        this.authenticationService.logout();
+        this.sb.logout();
     }
 }

@@ -1,17 +1,15 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy} from "@angular/core";
 import {Main} from "../../../common/components/main/main.component";
 import {DefaultPage} from "../../../common/components/default-page/default-page.component";
 import {ROUTER_DIRECTIVES, RouteParams, Router} from "@angular/router-deprecated";
 import {DetailWineForm} from "../../components/detail-wine-form/detail-wine-form.component";
 import {Wine} from "../../entities/Wine";
-import {StockService} from "../../services/stock.service";
-import {CONTAINER_EDITSTOCKPAGE_CLEAR_WINE, CONTAINER_EDITSTOCKPAGE_SET_WINE} from "../../../common/actionTypes";
-import {ApplicationState} from "../../../common/state/ApplicationState";
-import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Rx";
+import {EditStockPageSandbox} from "../../sandboxes/edit-stock-page.sandbox";
+import {StockService} from "../../services/stock.service";
 @Component({
     selector: "edit-stock-page",
-    providers: [StockService],
+    providers: [EditStockPageSandbox, StockService],
     directives: [ROUTER_DIRECTIVES, DetailWineForm, DefaultPage, Main],
     template: `
     <default-page>
@@ -33,26 +31,20 @@ export class EditStockPage implements OnDestroy {
         return this.routeParams.get("id");
     }
 
-    public editWine$: Observable<Wine> = this.store.select(state => state.containers.editStockPage.wine);
+    public editWine$: Observable<Wine> = this.sb.editWine$;
 
-    constructor(public stockService: StockService,
-                private store: Store<ApplicationState>,
+    constructor(public sb: EditStockPageSandbox,
                 private routeParams: RouteParams,
                 private router: Router) {
-        this.stockService.fetchWine(this.id).subscribe((wine: Wine) => {
-            this.store.dispatch({
-                type: CONTAINER_EDITSTOCKPAGE_SET_WINE,
-                payload: wine
-            });
-        });
+        this.sb.fetchWine(this.id).subscribe(wine => this.sb.setWine(wine));
     }
 
     public onSave(wine: Wine): void {
-        this.stockService.update(this.id, wine);
+        this.sb.updateWine(this.id, wine);
         this.router.navigateByUrl("/stock");
     }
 
     public ngOnDestroy(): void {
-        this.store.dispatch({type: CONTAINER_EDITSTOCKPAGE_CLEAR_WINE});
+        this.sb.clearWine();
     }
 }

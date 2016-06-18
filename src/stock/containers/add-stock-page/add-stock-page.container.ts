@@ -5,10 +5,11 @@ import {DetailWineForm} from "../../components/detail-wine-form/detail-wine-form
 import {StockService} from "../../services/stock.service";
 import {Router} from "@angular/router-deprecated";
 import {Wine} from "../../entities/Wine";
+import {AddStockPageSandbox} from "../../sandboxes/add-stock-page.sandbox";
 @Component({
     selector: "add-stock-page",
     directives: [DetailWineForm, DefaultPage, Main],
-    providers: [StockService],
+    providers: [StockService, AddStockPageSandbox],
     template: `
        <default-page>
             <main>
@@ -25,11 +26,11 @@ import {Wine} from "../../entities/Wine";
   `
 })
 export class AddStockPage {
-    constructor(private stockService: StockService, private router: Router) {
+    constructor(private sb: AddStockPageSandbox, private router: Router) {
     }
 
     public onSave(wine: Wine): void {
-        this.stockService.add(wine);
+        this.sb.addWine(wine);
         this.router.navigateByUrl("/stock");
     }
 }
