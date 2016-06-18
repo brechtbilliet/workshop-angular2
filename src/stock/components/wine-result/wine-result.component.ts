@@ -1,4 +1,4 @@
-import {Component, Output, Input} from "@angular/core";
+import {Component, Output, Input, ChangeDetectionStrategy} from "@angular/core";
 import {EventEmitter} from "@angular/router-deprecated/src/facade/async";
 import {Wine} from "../../entities/Wine";
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
@@ -6,6 +6,7 @@ import {Rating} from "../../../common/components/rating/rating.component";
 import {NumberPicker} from "../../../common/components/number-picker/number-picker.component";
 @Component({
     selector: "[wineResult]",
+    changeDetection: ChangeDetectionStrategy.OnPush,
     directives: [ROUTER_DIRECTIVES, NumberPicker, Rating],
     template: `
         <td><img src="{{wine.image}}"></td>

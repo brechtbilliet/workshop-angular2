@@ -1,11 +1,11 @@
-import {Component, Input, Output} from "@angular/core";
+import {Component, Input, Output, ChangeDetectionStrategy} from "@angular/core";
 import {Wine} from "../../entities/Wine";
 import {EventEmitter} from "@angular/router-deprecated/src/facade/async";
-import * as _ from "lodash";
 import {NumberPicker} from "../../../common/components/number-picker/number-picker.component";
 
 @Component({
     selector: "favorite-wines",
+    changeDetection: ChangeDetectionStrategy.OnPush,
     directives: [NumberPicker],
     styles: [require("./favorite-wines.component.scss")],
     template: `    

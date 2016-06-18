@@ -1,6 +1,7 @@
-import {Component} from "@angular/core";
+import {Component, ChangeDetectionStrategy} from "@angular/core";
 @Component({
     selector: "form-group-textbox",
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div class="form-group has-feedback" >
             <label class="col-sm-4 control-label">Fake label</label>

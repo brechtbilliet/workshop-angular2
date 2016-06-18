@@ -1,6 +1,7 @@
-import {Component, Input, Output, EventEmitter} from "@angular/core";
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from "@angular/core";
 @Component({
     selector: "number-picker",
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [require("./number-picker.component.scss")],
     template: `
         <button type="button" class="btn btn-primary btn-sm" (click)="down()" [disabled]="amount === 0">

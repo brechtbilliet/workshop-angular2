@@ -1,6 +1,7 @@
-import {Component} from "@angular/core";
+import {Component, ChangeDetectionStrategy} from "@angular/core";
 @Component({
     selector: "detail-wine-form",
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <form class="form-horizontal col-sm-12">
             <button type="submit" class="btn btn-primary btn-lg">

@@ -1,10 +1,11 @@
-import {Component, Output, Input} from "@angular/core";
+import {Component, Output, Input, ChangeDetectionStrategy} from "@angular/core";
 import {Wine} from "../../entities/Wine";
 import {EventEmitter} from "@angular/router-deprecated/src/facade/async";
 import {WineResult} from "../wine-result/wine-result.component";
 @Component({
     selector: "wine-results",
     directives: [WineResult],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <table class="table table-striped">
             <thead>
