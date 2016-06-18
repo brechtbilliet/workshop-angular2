@@ -21,7 +21,7 @@ import {Subscription} from "rxjs/Rx";
     encapsulation: ViewEncapsulation.None,
     styles: [require("./application.container.scss")],
     template: `
-        <navbar [account]="account" (logout)="logout()" *ngIf="isAuthenticated"></navbar>
+        <navbar [account]="account" (logout)="logout()" [hidden]="!isAuthenticated"></navbar>
         <authentication *ngIf="!isAuthenticated"></authentication>
         <router-outlet *ngIf="isAuthenticated"></router-outlet>
         <spinner></spinner>
