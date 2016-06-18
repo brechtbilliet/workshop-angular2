@@ -46,6 +46,7 @@ module.exports = {
     },
     debug: true,
     devtool: 'cheap-module-eval-source-map',
+    // devtool: 'source-map',
     plugins: [
         new CopyWebpackPlugin([
             {from: 'node_modules/core-js/client/shim.min.js', to: 'node_modules/core-js/client/shim.min.js'},

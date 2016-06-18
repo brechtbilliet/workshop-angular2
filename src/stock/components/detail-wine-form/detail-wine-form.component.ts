@@ -14,7 +14,8 @@ import {Product} from "../../services/wineCom.service";
 @Component({
     selector: "detail-wine-form",
     changeDetection: ChangeDetectionStrategy.OnPush,
-    directives: [FormGroupTextbox, FormGroupTextarea, FormGroupFooter, ROUTER_DIRECTIVES, Rating, NumberPicker, FormGroupContent, WineSearch],
+    directives: [FormGroupTextbox, FormGroupTextarea, FormGroupFooter, ROUTER_DIRECTIVES,
+        Rating, NumberPicker, FormGroupContent, WineSearch],
     template: `
         <form class="form-horizontal col-sm-12" (ngSubmit)="onSubmit()">
             <wine-search [control]="wineForm.controls['name']" (onSelect)="selectWine($event)"></wine-search>    
