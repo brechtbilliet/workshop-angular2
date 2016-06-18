@@ -1,7 +1,5 @@
 import {Component} from "@angular/core";
 import {Panel} from "../../../common/components/panel/panel.component";
-import {NumberPicker} from "../../../common/components/number-picker/number-picker.component";
-import {Rating} from "../../../common/components/rating/rating.component";
 import {Main} from "../../../common/components/main/main.component";
 import {DefaultPage} from "../../../common/components/default-page/default-page.component";
 import {WineResults} from "../../components/wine-results/wine-results.component";
@@ -14,13 +12,14 @@ import * as _ from "lodash";
 import {Observable} from "rxjs/Rx";
 import {StockService} from "../../services/stock.service";
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {FavoriteWines} from "../../components/favorite-wines/favorite-wines.component";
 @Component({
     selector: "stock-page",
-    directives: [Panel, DefaultPage, Main, CollapsableSidebar, WineResults, ROUTER_DIRECTIVES],
+    directives: [Panel, DefaultPage, Main, CollapsableSidebar, FavoriteWines, WineResults, ROUTER_DIRECTIVES],
     template: `
         <default-page>
             <collapsable-sidebar class="hidden-sm hidden-xs">
-                <favorite-wines (setStock)="onSetStock($event)" [wines]="wines$ | async">
+                <favorite-wines (setStock)="onSetStock($event)" [wines]="favoriteWines$ | async">
                 </favorite-wines>
             </collapsable-sidebar>
             <main>
@@ -62,6 +61,7 @@ import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 export class StockPage {
     public searchCtrl = new Control("");
     public wines$ = this.store.select(state => state.data.wines);
+    public favoriteWines$ = this.wines$.map(wines => _.orderBy(wines, ["myRating"], ["desc"]));
     public numberOfWines$ = this.wines$.map(wines => _.sumBy(wines, (wine: Wine) => wine.inStock));
     public matchingWines$ = Observable.combineLatest(
         this.searchCtrl.valueChanges.startWith(""), this.wines$, (term: string, wines: Array<Wine>) => {
