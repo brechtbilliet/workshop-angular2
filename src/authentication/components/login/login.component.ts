@@ -6,19 +6,9 @@ import {Credentials} from "../../types/Credentials";
     styles: [require("./login.component.scss")],
     template: `
         <h1>Login</h1>
-        <button class="btn btn-primary" (click)="onSubmit()">Login</button>
+        <button class="btn btn-primary">Login</button>
 
        `
 })
 export class Login {
-    @Output()
-    public authenticate: EventEmitter<Credentials>;
-
-    constructor() {
-        this.authenticate = new EventEmitter();
-    }
-
-    public onSubmit(): void {
-        this.authenticate.emit({login: "johndoe", password: "testtest"});
-    }
 }
