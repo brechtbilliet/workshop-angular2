@@ -14,9 +14,10 @@ import {Authentication} from "../../../authentication/containers/authentication/
 import {AuthenticationService} from "../../../authentication/services/authentication.service";
 import {BusyHandlerService} from "../../services/busyHandler.service";
 import {Spinner} from "../../components/spinner/spinner.component";
+import {StockService} from "../../../stock/services/stock.service";
 @Component({
     selector: "application",
-    providers: [Title, AuthenticationService, BusyHandlerService],
+    providers: [Title, AuthenticationService, BusyHandlerService, StockService],
     directives: [ROUTER_DIRECTIVES, Navbar, Authentication, Spinner],
     encapsulation: ViewEncapsulation.None,
     styles: [require("./application.container.scss")],
@@ -38,9 +39,11 @@ export class WineCellarApp {
     public account$ = this.store.select(state => state.data.authentication.account);
     public isBusy$ = this.store.select(state => state.containers.application.isBusy);
 
-    constructor(private title: Title, private authenticationService: AuthenticationService, private store: Store<ApplicationState>) {
+    constructor(private title: Title, private authenticationService: AuthenticationService,
+                private store: Store<ApplicationState>, private stockService: StockService) {
         this.title.setTitle("Winecellar application");
         authenticationService.checkInitialAuthentication();
+        this.stockService.load();
     }
 
 
