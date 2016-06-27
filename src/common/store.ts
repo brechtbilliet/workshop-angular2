@@ -2,7 +2,6 @@ import {collapsableSidebarReducer} from "./reducers/containers/collapsableSideba
 import {authenticationReducer} from "./reducers/data/authenticationReducer";
 import {winesReducer} from "./reducers/data/winesReducer";
 import {applicationReducer} from "./reducers/containers/applicationReducer";
-import {editStockReducer} from "./reducers/containers/editStockReducer";
 import {
     DATA_AUTHENTICATION_CLEAR_AUTHENTICATION,
     DATA_AUTHENTICATION_SET_AUTHENTICATION,
@@ -12,8 +11,6 @@ import {
     DATA_WINES_UPDATE,
     DATA_WINES_UPDATE_RATE,
     DATA_WINES_UPDATE_STOCK,
-    CONTAINER_EDITSTOCKPAGE_CLEAR_WINE,
-    CONTAINER_EDITSTOCKPAGE_SET_WINE,
     CONTAINER_COLLAPSABLESIDEBAR_TOGGLE,
     CONTAINER_APPLICATION_DISABLE_BUSY_FLAG,
     CONTAINER_APPLICATION_ENABLE_BUSY_FLAG
@@ -49,13 +46,6 @@ let reducerComposer: any = {
 
     },
     containers: {
-        editStockPage: {
-            initialState: {},
-            actions: [
-                CONTAINER_EDITSTOCKPAGE_CLEAR_WINE,
-                CONTAINER_EDITSTOCKPAGE_SET_WINE],
-            reducer: editStockReducer
-        },
         collapsableSidebar: {
             initialState: {isCollapsed: false},
             actions: [CONTAINER_COLLAPSABLESIDEBAR_TOGGLE],

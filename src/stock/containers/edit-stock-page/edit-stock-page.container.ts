@@ -5,7 +5,6 @@ import {ROUTER_DIRECTIVES, RouteParams, Router} from "@angular/router-deprecated
 import {DetailWineForm} from "../../components/detail-wine-form/detail-wine-form.component";
 import {Wine} from "../../entities/Wine";
 import {StockService} from "../../services/stock.service";
-import {Observable} from "rxjs/Rx";
 @Component({
     selector: "edit-stock-page",
     providers: [StockService],
