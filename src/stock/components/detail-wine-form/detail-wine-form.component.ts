@@ -15,14 +15,14 @@ import {ControlGroup, Validators, Control} from "@angular/common";
     directives: [FormGroupTextbox, FormGroupTextarea, FormGroupFooter, ROUTER_DIRECTIVES, Rating, NumberPicker, FormGroupContent],
     template: `
         <form class="form-horizontal col-sm-12" (ngSubmit)="onSubmit()">
-            <form-group-textbox [label]="'Region'" [control]="wineForm.controls['name']" [placeholder]="'Enter name'">
+            <form-group-textbox [label]="'Region'" [control]="wineForm.controls.name" [placeholder]="'Enter name'">
             </form-group-textbox>    
-            <form-group-textarea [label]="'Description'" [control]="wineForm.controls['description']" 
+            <form-group-textarea [label]="'Description'" [control]="wineForm.controls.description" 
                 [placeholder]="'Enter description'">
             </form-group-textarea>    
-            <form-group-textbox [label]="'Region'" [control]="wineForm.controls['region']" [placeholder]="'Enter region'">
+            <form-group-textbox [label]="'Region'" [control]="wineForm.controls.region" [placeholder]="'Enter region'">
             </form-group-textbox>    
-            <form-group-textbox [label]="'Price'" [control]="wineForm.controls['price']" [placeholder]="'Enter price'">
+            <form-group-textbox [label]="'Price'" [control]="wineForm.controls.price" [placeholder]="'Enter price'">
             </form-group-textbox>    
             <form-group-content [label]="'Rating'">
                 <rating [big]="true" [rating]="wine.myRating" (setRate)="setRate($event)"></rating>
