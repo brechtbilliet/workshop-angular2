@@ -1,8 +1,5 @@
 // data
 // data: authentication
-import {AuthenticationResult} from "../authentication/types/AuthenticationResult";
-import {Action} from "@ngrx/store";
-import {Wine} from "../stock/entities/Wine";
 export const DATA_AUTHENTICATION_SET_AUTHENTICATION: string = "DATA_AUTHENTICATION_SET_AUTHENTICATION";
 export const DATA_AUTHENTICATION_CLEAR_AUTHENTICATION: string = "DATA_AUTHENTICATION_CLEAR_AUTHENTICATION";
 // data: wines

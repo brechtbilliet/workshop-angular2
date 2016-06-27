@@ -9,9 +9,7 @@ import {
     DATA_WINES_UPDATE_STOCK,
     CONTAINER_APPLICATION_ENABLE_BUSY_FLAG,
     CONTAINER_APPLICATION_DISABLE_BUSY_FLAG,
-    CONTAINER_COLLAPSABLESIDEBAR_TOGGLE,
-    CONTAINER_EDITSTOCKPAGE_SET_WINE,
-    CONTAINER_EDITSTOCKPAGE_CLEAR_WINE
+    CONTAINER_COLLAPSABLESIDEBAR_TOGGLE
 } from "./actionTypes";
 import {Action} from "@ngrx/store";
 import {AuthenticationResult} from "../authentication/types/AuthenticationResult";
@@ -82,17 +80,5 @@ export function disableBusy(): Action {
 export function toggleSidebar(): Action {
     return {
         type: CONTAINER_COLLAPSABLESIDEBAR_TOGGLE
-    };
-}
-export function setWine(wine: Wine): Action {
-    return {
-        type: CONTAINER_EDITSTOCKPAGE_SET_WINE,
-        payload: wine
-    };
-}
-
-export function clearWine(): Action {
-    return {
-        type: CONTAINER_EDITSTOCKPAGE_CLEAR_WINE
     };
 }

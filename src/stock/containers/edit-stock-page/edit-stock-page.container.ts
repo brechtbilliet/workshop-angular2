@@ -1,10 +1,9 @@
-import {Component, OnDestroy} from "@angular/core";
+import {Component} from "@angular/core";
 import {Main} from "../../../common/components/main/main.component";
 import {DefaultPage} from "../../../common/components/default-page/default-page.component";
 import {ROUTER_DIRECTIVES, RouteParams, Router} from "@angular/router-deprecated";
 import {DetailWineForm} from "../../components/detail-wine-form/detail-wine-form.component";
 import {Wine} from "../../entities/Wine";
-import {Observable} from "rxjs/Rx";
 import {EditStockPageSandbox} from "../../sandboxes/edit-stock-page.sandbox";
 import {StockService} from "../../services/stock.service";
 @Component({
@@ -19,32 +18,24 @@ import {StockService} from "../../services/stock.service";
                     <h1><i class="fa fa-pencil"></i>&nbsp;Edit wine</h1>
                 </div>
              </div>
-             <div class="row">
-                <detail-wine-form [wine]="editWine$|async" *ngIf="editWine$|async" (onSave)="onSave($event)"></detail-wine-form>
+             <div class="row" *ngIf="(editWine$|async)">
+                <detail-wine-form [wine]="editWine$|async" (onSave)="onSave($event)"></detail-wine-form>
             </div>
         </main>
     </default-page>
      `
 })
-export class EditStockPage implements OnDestroy {
-    public get id(): string {
-        return this.routeParams.get("id");
-    }
-
-    public editWine$: Observable<Wine> = this.sb.editWine$;
+export class EditStockPage {
+    public id = this.routeParams.get("id");
+    public editWine$ = this.sb.fetchWine(this.id).publishLast().refCount();
 
     constructor(public sb: EditStockPageSandbox,
                 private routeParams: RouteParams,
                 private router: Router) {
-        this.sb.fetchWine(this.id).subscribe(wine => this.sb.setWine(wine));
     }
 
     public onSave(wine: Wine): void {
         this.sb.updateWine(this.id, wine);
         this.router.navigateByUrl("/stock");
-    }
-
-    public ngOnDestroy(): void {
-        this.sb.clearWine();
     }
 }
