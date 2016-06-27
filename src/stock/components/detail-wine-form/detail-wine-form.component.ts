@@ -18,14 +18,10 @@ import {Product} from "../../services/wineCom.service";
         Rating, NumberPicker, FormGroupContent, WineSearch],
     template: `
         <form class="form-horizontal col-sm-12" (ngSubmit)="onSubmit()">
-            <wine-search [control]="wineForm.controls['name']" (onSelect)="selectWine($event)"></wine-search>    
-            <form-group-textarea [label]="'Description'" [control]="wineForm.controls['description']" 
-                [placeholder]="'Enter description'">
-            </form-group-textarea>    
-            <form-group-textbox [label]="'Region'" [control]="wineForm.controls['region']" [placeholder]="'Enter region'">
-            </form-group-textbox>    
-            <form-group-textbox [label]="'Price'" [control]="wineForm.controls['price']" [placeholder]="'Enter price'">
-            </form-group-textbox>    
+            <wine-search [control]="wineForm.controls.name" (onSelect)="selectWine($event)"></wine-search>    
+            <form-group-textarea [label]="'Description'" [control]="wineForm.controls.description" [placeholder]="'Enter description'"></form-group-textarea>    
+            <form-group-textbox [label]="'Region'" [control]="wineForm.controls.region" [placeholder]="'Enter region'"></form-group-textbox>    
+            <form-group-textbox [label]="'Price'" [control]="wineForm.controls.price" [placeholder]="'Enter price'"></form-group-textbox>    
             <form-group-content [label]="'Rating'">
                 <rating [big]="true" [rating]="wine.myRating" (setRate)="setRate($event)"></rating>
             </form-group-content>
@@ -33,9 +29,7 @@ import {Product} from "../../services/wineCom.service";
                 <number-picker [amount]="wine.inStock" (setAmount)="setInStock($event)"></number-picker>
             </form-group-content>
             <div class="form-group has-feedback">
-                 <div class=" col-sm-offset-4 col-sm-8">
-                    <img src="{{wine.image}}" alt=""/>
-                </div>
+                 <div class=" col-sm-offset-4 col-sm-8"><img src="{{wine.image}}" alt=""/></div>
             </div>
             <form-group-footer>
                  <button type="submit" [disabled]="!wineForm.valid"  class="btn btn-primary btn-lg">
@@ -47,8 +41,7 @@ import {Product} from "../../services/wineCom.service";
      `
 })
 export class DetailWineForm implements OnInit {
-    @Input() public wine: Wine = this.wine ? Object.assign({}, this.wine) : new Wine();
-
+    @Input() public wine = new Wine();
     @Output() public onSave = new EventEmitter<Wine>();
 
     public wineForm: ControlGroup;
