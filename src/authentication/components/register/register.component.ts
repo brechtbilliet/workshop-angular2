@@ -11,19 +11,19 @@ import {FormGroupTextbox} from "../../../common/components/form/form-group-textb
     directives: [FormGroupTextbox, FormGroupPassword, FormGroupFooter],
     template: `
         <form class="form-horizontal" (ngSubmit)="onSubmit()">
-            <form-group-textbox [label]="'First name (*)'" [control]="registerForm.controls['firstName']" 
+            <form-group-textbox [label]="'First name (*)'" [control]="registerForm.controls.firstName" 
                 [placeholder]="'Enter first name'">
             </form-group-textbox>
-            <form-group-textbox [label]="'Last name (*)'"  [control]="registerForm.controls['lastName']" 
+            <form-group-textbox [label]="'Last name (*)'"  [control]="registerForm.controls.lastName" 
                 [placeholder]="'Enter last name'">
             </form-group-textbox>
-            <form-group-textbox [label]="'Login (*)'" [control]="registerForm.controls['login']" 
+            <form-group-textbox [label]="'Login (*)'" [control]="registerForm.controls.login" 
                 [placeholder]="'Enter login'">
             </form-group-textbox>
-            <form-group-password [label]="'Password (*)'" [control]="registerForm.controls['password']" 
+            <form-group-password [label]="'Password (*)'" [control]="registerForm.controls.password" 
                 [placeholder]="'Enter password'">
             </form-group-password>
-            <form-group-password [label]="'Confirm password (*)'" [control]="registerForm.controls['confirmPassword']" 
+            <form-group-password [label]="'Confirm password (*)'" [control]="registerForm.controls.confirmPassword" 
                 [placeholder]="'Confirm your password'">
             </form-group-password>
             <form-group-footer>
