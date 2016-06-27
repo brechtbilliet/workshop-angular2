@@ -45,7 +45,7 @@ let reducerComposer: any = {
         }
 
     },
-    container: {
+    containers: {
         collapsableSidebar: {
             initialState: {isCollapsed: false},
             actions: [CONTAINER_COLLAPSABLESIDEBAR_TOGGLE],
