@@ -45,8 +45,7 @@ import {ControlGroup, Validators, Control} from "@angular/common";
      `
 })
 export class DetailWineForm implements OnInit {
-    @Input() public wine: Wine = this.wine ? Object.assign({}, this.wine) : new Wine();
-
+    @Input() public wine = new Wine();
     @Output() public onSave = new EventEmitter<Wine>();
 
     public wineForm: ControlGroup;
